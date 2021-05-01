@@ -50,6 +50,9 @@ class Tareas extends Component {
                   ? true
                   : null
               }
+              onChange={
+                (e) => chkStatusTarea(item.id, e.target.checked)
+              }
             />
           </ContCheck>
           <NombreTarea>
