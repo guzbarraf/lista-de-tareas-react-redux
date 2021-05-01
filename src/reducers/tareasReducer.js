@@ -23,7 +23,8 @@ const tareasReducer = (state = INITIAL_STATE, action) => {
 
     case COMPLETAR:
       return { ...state, tareas: action.payload }
-    
+    case CANCELAR:
+      return { ...state, tareas: action.payload }
     case ERROR:
       return { ...state, error: action.payload, cargando: false }
     default:

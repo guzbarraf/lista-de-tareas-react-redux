@@ -99,3 +99,47 @@ export const chkStatusTarea = (id, val) => (dispatch) => {
 }
 
 
+export const cancelarTarea = (id) => async (dispatch) => {
+  try{
+    axios({
+      method: "post",
+      mode: 'no-cors',
+      url: `${SERVER}?accion=cancelar&id=${id}`,
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+    .then(respuesta => {
+      //console.log(respuesta);
+
+      const tareas = {};
+
+      respuesta.data.map(tarea => (
+        tareas[tarea.id] = {
+          ...tarea
+        }
+      ));
+
+      //console.log(tareas);
+
+      dispatch({
+        type: CANCELAR,
+        payload: tareas
+      });
+
+    })
+    .catch(error => console.log(error.message ));
+
+    dispatch({
+      type: LISTAR_TAREAS,
+      payload: {}
+    })
+  }
+  catch(error){
+    console.log(error.message);
+    dispatch({
+      type: ERROR,
+      payload: 'No se puede acceder'
+    })
+  }
+}

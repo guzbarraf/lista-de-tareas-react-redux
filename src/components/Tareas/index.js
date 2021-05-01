@@ -66,7 +66,7 @@ class Tareas extends Component {
                 Editar
               </a>
             </BotonAccion>
-            <BotonAccion>
+            <BotonAccion onClick={() => cancelarTarea(item.id)}>
               Cancelar
             </BotonAccion>
           </ContBotones>
