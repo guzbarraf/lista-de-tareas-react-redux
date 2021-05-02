@@ -27,7 +27,55 @@
       
       break;
   
+    case 'nueva':
+      $fecha = getdate();
+      $fecha = $fecha['year']."-".$fecha['mon']."-".$fecha['mday']." ".$fecha['hours'].":".$fecha['minutes'].":".$fecha['seconds'];
+      
+      $val = $_REQUEST['val'];
+      $sql = "INSERT INTO tareas (tarea, status, fecha_creacion) VALUES('".$val."', 'activo', '".$fecha."') ";
+      $objDB->query($sql);
+    
+      $sql = "SELECT * FROM tareas";
+      $objDB->query($sql);
+    
+      $rows = 0;
+    
+      while($objDB->fetchRowObject()){
+        $arr[] = $objDB->row;
+        $rows++;
+      }
+    
+      #$data = array('total' => $rows, 'data' => $arr);
+      $data = $arr;
+      echo json_encode($data);
+    
+      break;
   
+    case 'editar':
+      $fecha = getdate();
+      $fecha = $fecha['year']."-".$fecha['mon']."-".$fecha['mday']." ".$fecha['hours'].":".$fecha['minutes'].":".$fecha['seconds'];
+      
+      $id = $_REQUEST['id'];
+      $val = $_REQUEST['val'];
+      $sql = "UPDATE tareas SET tarea = '".$val."', fecha_ultima_modificacion = '".$fecha."' WHERE id = '".$id."'";
+      $objDB->query($sql);
+    
+      $sql = "SELECT * FROM tareas";
+      $objDB->query($sql);
+    
+      $rows = 0;
+    
+      while($objDB->fetchRowObject()){
+        $arr[] = $objDB->row;
+        $rows++;
+      }
+    
+      #$data = array('total' => $rows, 'data' => $arr);
+      $data = $arr;
+      echo json_encode($data);
+    
+      break;
+      
     case 'completar':
       $id = $_REQUEST['id'];
       $val = $_REQUEST['val'] == 'true' ? 'completado' : 'activo';

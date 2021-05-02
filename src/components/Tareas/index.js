@@ -16,11 +16,18 @@ import * as tareasActions from '../../actions/tareasActions';
 
 class Tareas extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: 0,
+      editar: 0
+    };
+  }
+
   componentDidMount() {
     if (!Object.keys(this.props.tareas).length) {
       this.props.listarTareas();
-      console.log('component did mount')
-      console.log('props => ',this.props.listarTareas())
+      //console.log('props => ',this.props.listarTareas());
     }
   }
 
@@ -28,36 +35,65 @@ class Tareas extends Component {
     const {tareas, cargando, listarTareas} = this.props;
 
     if (!Object.keys(tareas).length && !cargando) {
-      listarTareas()
-      console.log('this.props')
+      listarTareas();
     }
   }
 
-  ocultarTareasCanceladas = () => {
-    console.log('ocultarTareasCanceladas')
-  }
-
   crearTarea = () => {
-    const {nuevaTarea} = this.props;
+    const {nuevaTarea, editarTarea} = this.props;
 
     let val = document.getElementById('txtNuevaTarea').value;
 
-    nuevaTarea(val);
+    console.log('this.state.editar', this.state.nueveditar);
+
+    if(this.state.editar === 0){
+      nuevaTarea(val);
+    }else{
+      editarTarea(this.state.id, val);
+    }
 
     document.getElementById('txtNuevaTarea').value = '';
+    this.setState({
+      id: 0,
+      editar: 0
+    });
   }
+
+  initEditarTarea = (id, tarea) => {
+    //console.log('initEditarTarea', tarea);
+    this.setState({
+      id: id,
+      editar: 1
+    });
+    document.getElementById('txtNuevaTarea').value = tarea;
+  }
+
+  ocultarTareasCanceladas = () => {
+
+  }
+
 
   mostrarTareas = () => {
     const {tareas, chkStatusTarea, cancelarTarea} = this.props;
 
-    console.log('Tareas => ', tareas);
+    //console.log('Tareas => ', tareas);
 
     return Object.values(tareas).map(item => {
 
-      let classCancelado = (item.status === 'cancelado') ? 'classCancelado' : '';
+      let classCancelado = (item.status === 'cancelado') ? 'tarea-cancelada' : '';
 
       return (
-        <ContItemTask key={item.id} className={classCancelado}>
+        <ContItemTask
+          key={item.id}
+          className={`
+            ${classCancelado}
+            ${this.state.ocultarCanceladas
+              && classCancelado === 'tarea-cancelada'
+              ? 'ocultar-canceladas'
+              : ''
+             }
+          `}
+        >
           <ContCheck>
             <input
               type='checkbox'
@@ -73,11 +109,18 @@ class Tareas extends Component {
           </ContCheck>
           <NombreTarea>
             <div><b>{item.id}:</b> {item.tarea}</div>
-            <FechaTarea>{item.fecha_creacion}</FechaTarea>
+            <FechaTarea>
+              {item.fecha_creacion}
+              {
+                item.fecha_ultima_modificacion
+                  ? ` ### ${item.fecha_ultima_modificacion}`
+                  : null
+              }
+            </FechaTarea>
           </NombreTarea>
 
           <ContBotones>
-            <BotonAccion className={'btnEditar'}>
+            <BotonAccion className={'btnEditar'} onClick={() => this.initEditarTarea(item.id, item.tarea)}>
               Editar
             </BotonAccion>
             <BotonAccion className={'btnCancelar'} onClick={() => cancelarTarea(item.id)}>
@@ -116,7 +159,7 @@ class Tareas extends Component {
           <BotonAccion>
             Filtrar no completadas
           </BotonAccion>
-          <BotonAccion onClick={() => this.ocultarTareasCanceladas()}>
+          <BotonAccion id={'btnOcultarCanceladas'} onClick={() => this.ocultarTareasCanceladas()}>
             Ocultar canceladas
           </BotonAccion>
         </ContMenu>

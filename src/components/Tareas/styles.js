@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyleTareas = createGlobalStyle`
-  .classCancelado{
+  .tarea-cancelada{
     text-decoration: line-through;
     color: #dedede !important;
     
@@ -9,21 +9,25 @@ export const GlobalStyleTareas = createGlobalStyle`
       color: #dedede !important;
     }
   }
+  .ocultar-canceladas{
+    display: none;
+  }
+  
   
   .btnGuardar{
     height: 40px !important;
     padding: 10px 15px;
     font-size: 16px;
-    background-color: #16a085;
-    color: #ecf0f1;
+    background-color: #2ecc71;
+    color: #ffffff;
   }
   .btnEditar{
     background-color: #f1c40f;
-    color: #34495e;
+    color: #ffffff;
   }
   .btnCancelar{
-    background-color: #c0392b;
-    color: #ecf0f1;
+    background-color: #e74c3c;
+    color: #ffffff;
   }
 `
 export const ContNuevaTarea = styled.div`

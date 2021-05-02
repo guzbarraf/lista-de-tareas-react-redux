@@ -26,7 +26,8 @@ const tareasReducer = (state = INITIAL_STATE, action) => {
         tareas: {},
         regresar: false
       }
-
+    case ACTUALIZAR:
+      return { ...state, tareas: action.payload }
     case COMPLETAR:
       return { ...state, tareas: action.payload }
     case CANCELAR:
