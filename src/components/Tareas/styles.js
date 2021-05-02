@@ -3,12 +3,21 @@ import styled, { createGlobalStyle } from 'styled-components'
 export const GlobalStyleTareas = createGlobalStyle`
   .tarea-cancelada{
     text-decoration: line-through;
-    color: #dedede !important;
+    color: #f2b6b6 !important;
     
-    & > div{
-      color: #dedede !important;
+    & div{
+      color: #f2b6b6 !important;
     }
   }
+  .tarea-completada{
+    text-decoration: line-through;
+    color: #bab9f3 !important;
+    
+    & div{
+      color: #bab9f3 !important;
+    }
+  }
+  .ocultar-tareas,
   .ocultar-canceladas{
     display: none;
   }

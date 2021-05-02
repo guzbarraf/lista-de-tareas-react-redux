@@ -21,7 +21,9 @@ class Tareas extends Component {
     this.state = {
       id: 0,
       editar: 0,
-      ocultarCanceladas: 0
+      ocultarCanceladas: 0,
+      filtrarCompletadas: 0,
+      filtrarNoCompletadas: 0
     };
   }
 
@@ -77,6 +79,22 @@ class Tareas extends Component {
       ocultarCanceladas: !this.state.ocultarCanceladas
     });
   }
+  filtrarTareasCompletadas = () => {
+    const textoBtn = this.state.filtrarCompletadas ? 'Filtrar completadas' : 'Mostrar todas las tareas';
+    document.getElementById('btnFiltrarCompletadas').innerText = textoBtn;
+
+    this.setState({
+      filtrarCompletadas: !this.state.filtrarCompletadas
+    });
+  }
+  filtrarTareasNoCompletadas = () => {
+    const textoBtn = this.state.filtrarNoCompletadas ? 'Filtrar no completadas' : 'Mostrar todas las tareas';
+    document.getElementById('btnFiltrarNoCompletadas').innerText = textoBtn;
+
+    this.setState({
+      filtrarNoCompletadas: !this.state.filtrarNoCompletadas
+    });
+  }
 
 
   mostrarTareas = () => {
@@ -87,17 +105,29 @@ class Tareas extends Component {
     return Object.values(tareas).map(item => {
 
       let classCancelado = (item.status === 'cancelado') ? 'tarea-cancelada' : '';
+      let classCompletado = (item.status === 'completado') ? 'tarea-completada' : '';
 
       return (
         <ContItemTask
           key={item.id}
           className={`
             ${classCancelado}
+            ${classCompletado}
             ${this.state.ocultarCanceladas
               && classCancelado === 'tarea-cancelada'
               ? 'ocultar-canceladas'
               : ''
-             }
+            }
+            ${this.state.filtrarCompletadas
+              && item.status !== 'completado'
+              ? 'ocultar-tareas'
+              : ''
+            }
+            ${this.state.filtrarNoCompletadas
+            && item.status !== 'activo'
+              ? 'ocultar-tareas'
+              : ''
+            }
           `}
         >
           <ContCheck>
@@ -159,10 +189,10 @@ class Tareas extends Component {
         </ContNuevaTarea>
 
         <ContMenu>
-          <BotonAccion>
+          <BotonAccion id={'btnFiltrarCompletadas'} onClick={() => this.filtrarTareasCompletadas()}>
             Filtrar completadas
           </BotonAccion>
-          <BotonAccion>
+          <BotonAccion id={'btnFiltrarNoCompletadas'} onClick={() => this.filtrarTareasNoCompletadas()}>
             Filtrar no completadas
           </BotonAccion>
           <BotonAccion id={'btnOcultarCanceladas'} onClick={() => this.ocultarTareasCanceladas()}>
