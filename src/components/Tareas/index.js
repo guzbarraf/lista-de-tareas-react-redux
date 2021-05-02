@@ -20,7 +20,8 @@ class Tareas extends Component {
     super(props);
     this.state = {
       id: 0,
-      editar: 0
+      editar: 0,
+      ocultarCanceladas: 0
     };
   }
 
@@ -69,7 +70,12 @@ class Tareas extends Component {
   }
 
   ocultarTareasCanceladas = () => {
+    const textoBtn = this.state.ocultarCanceladas ? 'Ocultar canceladas' : 'Mostrar canceladas';
+    document.getElementById('btnOcultarCanceladas').innerText = textoBtn;
 
+    this.setState({
+      ocultarCanceladas: !this.state.ocultarCanceladas
+    });
   }
 
 
