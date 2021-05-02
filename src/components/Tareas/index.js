@@ -9,7 +9,7 @@ import {
   ContBotones,
   ContCheck,
   BotonAccion,
-  FechaTarea
+  FechaTarea, ContMenu, ContNuevaTarea, Input
 } from "./styles";
 
 import * as tareasActions from '../../actions/tareasActions';
@@ -19,6 +19,8 @@ class Tareas extends Component {
   componentDidMount() {
     if (!Object.keys(this.props.tareas).length) {
       this.props.listarTareas();
+      console.log('component did mount')
+      console.log('props => ',this.props.listarTareas())
     }
   }
 
@@ -27,8 +29,22 @@ class Tareas extends Component {
 
     if (!Object.keys(tareas).length && !cargando) {
       listarTareas()
-      //console.log(this.props)
+      console.log('this.props')
     }
+  }
+
+  ocultarTareasCanceladas = () => {
+    console.log('ocultarTareasCanceladas')
+  }
+
+  crearTarea = () => {
+    const {nuevaTarea} = this.props;
+
+    let val = document.getElementById('txtNuevaTarea').value;
+
+    nuevaTarea(val);
+
+    document.getElementById('txtNuevaTarea').value = '';
   }
 
   mostrarTareas = () => {
@@ -61,12 +77,10 @@ class Tareas extends Component {
           </NombreTarea>
 
           <ContBotones>
-            <BotonAccion>
-              <a to={`/tareas/guardar/${item.id}/`}>
-                Editar
-              </a>
+            <BotonAccion className={'btnEditar'}>
+              Editar
             </BotonAccion>
-            <BotonAccion onClick={() => cancelarTarea(item.id)}>
+            <BotonAccion className={'btnCancelar'} onClick={() => cancelarTarea(item.id)}>
               Cancelar
             </BotonAccion>
           </ContBotones>
@@ -79,11 +93,37 @@ class Tareas extends Component {
     return (
       <ContTasks>
         <GlobalStyleTareas/>
+
         <TituloApp>
           ⚛️ Tareas en React y Redux ⚛️
         </TituloApp>
 
-        {this.mostrarTareas()}
+        <ContNuevaTarea>
+          <div>
+            <Input type="text" id={'txtNuevaTarea'} />
+          </div>
+          <div>
+            <BotonAccion className={'btnGuardar'}  onClick={() => this.crearTarea()}>
+              Guardar
+            </BotonAccion>
+          </div>
+        </ContNuevaTarea>
+
+        <ContMenu>
+          <BotonAccion>
+            Filtrar completadas
+          </BotonAccion>
+          <BotonAccion>
+            Filtrar no completadas
+          </BotonAccion>
+          <BotonAccion onClick={() => this.ocultarTareasCanceladas()}>
+            Ocultar canceladas
+          </BotonAccion>
+        </ContMenu>
+
+        <div>
+          {this.mostrarTareas()}
+        </div>
       </ContTasks>
 
     )

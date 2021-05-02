@@ -53,6 +53,50 @@ export const listarTareas = () => async (dispatch) => {
   }
 }
 
+export const nuevaTarea = (val) => async (dispatch) => {
+    try{
+      axios({
+        method: "post",
+        mode: 'no-cors',
+        url: `${SERVER}?accion=nueva&val=${val}`,
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+      .then(respuesta => {
+        //console.log(respuesta);
+
+        const tareas = {};
+
+        respuesta.data.map(tarea => (
+          tareas[tarea.id] = {
+            ...tarea
+          }
+        ));
+
+        //console.log(tareas);
+
+        dispatch({
+          type: GUARDAR,
+          payload: tareas
+        });
+
+      })
+      .catch(error => console.log(error.message ));
+
+      dispatch({
+        type: LISTAR_TAREAS,
+        payload: {}
+      })
+    }
+    catch(error){
+      console.log(error.message);
+      dispatch({
+        type: ERROR,
+        payload: 'No se puede acceder'
+      })
+    }
+  }
 export const chkStatusTarea = (id, val) => (dispatch) => {
   try{
     axios({

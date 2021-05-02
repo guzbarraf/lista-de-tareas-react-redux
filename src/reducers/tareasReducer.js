@@ -20,6 +20,12 @@ const tareasReducer = (state = INITIAL_STATE, action) => {
         tareas: action.payload,
         regresar: false
       }
+    case GUARDAR:
+      return {
+        ...state,
+        tareas: {},
+        regresar: false
+      }
 
     case COMPLETAR:
       return { ...state, tareas: action.payload }
