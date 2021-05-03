@@ -42,12 +42,13 @@ class Tareas extends Component {
     }
   }
 
+  // función para crear o editar la tarea según sea el valor del estado "editar"
   crearTarea = () => {
     const {nuevaTarea, editarTarea} = this.props;
 
     let val = document.getElementById('txtNuevaTarea').value;
 
-    console.log('this.state.editar', this.state.nueveditar);
+    //console.log('this.state.editar', this.state.nueveditar);
 
     if(this.state.editar === 0){
       nuevaTarea(val);
@@ -62,6 +63,7 @@ class Tareas extends Component {
     });
   }
 
+  // función que coloca la tarea en el input y cambia el valor del estado "editar"
   initEditarTarea = (id, tarea) => {
     //console.log('initEditarTarea', tarea);
     this.setState({
@@ -71,6 +73,7 @@ class Tareas extends Component {
     document.getElementById('txtNuevaTarea').value = tarea;
   }
 
+  // función para ocultar als tareas de la lista
   ocultarTareasCanceladas = () => {
     const textoBtn = this.state.ocultarCanceladas ? 'Ocultar canceladas' : 'Mostrar canceladas';
     document.getElementById('btnOcultarCanceladas').innerText = textoBtn;
@@ -79,6 +82,7 @@ class Tareas extends Component {
       ocultarCanceladas: !this.state.ocultarCanceladas
     });
   }
+  // función para filtrar las tareas completadas
   filtrarTareasCompletadas = () => {
     const textoBtn = this.state.filtrarCompletadas ? 'Filtrar completadas' : 'Mostrar todas las tareas';
     document.getElementById('btnFiltrarCompletadas').innerText = textoBtn;
@@ -87,6 +91,7 @@ class Tareas extends Component {
       filtrarCompletadas: !this.state.filtrarCompletadas
     });
   }
+  // función para filtrar las tareas no completadas
   filtrarTareasNoCompletadas = () => {
     const textoBtn = this.state.filtrarNoCompletadas ? 'Filtrar no completadas' : 'Mostrar todas las tareas';
     document.getElementById('btnFiltrarNoCompletadas').innerText = textoBtn;
@@ -96,7 +101,7 @@ class Tareas extends Component {
     });
   }
 
-
+  // función para mostrar las tareas
   mostrarTareas = () => {
     const {tareas, chkStatusTarea, cancelarTarea} = this.props;
 
@@ -104,6 +109,7 @@ class Tareas extends Component {
 
     return Object.values(tareas).map(item => {
 
+      // asignación de clases css a las tareas cacneladas y completadas
       let classCancelado = (item.status === 'cancelado') ? 'tarea-cancelada' : '';
       let classCompletado = (item.status === 'completado') ? 'tarea-completada' : '';
 
@@ -113,6 +119,8 @@ class Tareas extends Component {
           className={`
             ${classCancelado}
             ${classCompletado}
+            
+            // validaciones de los estados para filtrar u ocultar tareas 
             ${this.state.ocultarCanceladas
               && classCancelado === 'tarea-cancelada'
               ? 'ocultar-canceladas'
@@ -148,6 +156,7 @@ class Tareas extends Component {
             <FechaTarea>
               {item.fecha_creacion}
               {
+                // si existe algún dato en la fecha de modificación también se integra
                 item.fecha_ultima_modificacion
                   ? ` ### ${item.fecha_ultima_modificacion}`
                   : null
@@ -177,6 +186,9 @@ class Tareas extends Component {
           ⚛️ Tareas en React y Redux ⚛️
         </TituloApp>
 
+        {
+          // input para crear tareas
+        }
         <ContNuevaTarea>
           <div>
             <Input type="text" id={'txtNuevaTarea'} />
@@ -188,6 +200,9 @@ class Tareas extends Component {
           </div>
         </ContNuevaTarea>
 
+        {
+          // menú para filtrar u ocultar tareas
+        }
         <ContMenu>
           <BotonAccion id={'btnFiltrarCompletadas'} onClick={() => this.filtrarTareasCompletadas()}>
             Filtrar completadas
@@ -200,6 +215,9 @@ class Tareas extends Component {
           </BotonAccion>
         </ContMenu>
 
+        {
+          // llamado a la funciíon para mostra las tareas
+        }
         <div>
           {this.mostrarTareas()}
         </div>

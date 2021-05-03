@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   regresar: false
 }
 
+// Reducer para las tareas
 const tareasReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LISTAR_TAREAS:

@@ -8,9 +8,11 @@ import {
   ERROR
 } from '../types/tareasTypes';
 
+// url a donde se encuentra la api para alamcenar las tareas
 const SERVER = 'http://tareas.maestrodiablero.com/';
 //const SERVER = 'http://localhost/lista-de-tareas-react-redux/api';
 
+// Acción de Redux para listar las tareas
 export const listarTareas = () => async (dispatch) => {
   try{
 
@@ -53,6 +55,7 @@ export const listarTareas = () => async (dispatch) => {
   }
 }
 
+// Acción de Redux para crear
 export const nuevaTarea = (val) => async (dispatch) => {
     try{
       axios({
@@ -97,6 +100,8 @@ export const nuevaTarea = (val) => async (dispatch) => {
       })
     }
   }
+
+// Acción de Redux para actualizar el status de la tarea a copmpletada o activa
 export const chkStatusTarea = (id, val) => (dispatch) => {
   try{
     axios({
@@ -142,6 +147,7 @@ export const chkStatusTarea = (id, val) => (dispatch) => {
   }
 }
 
+// Acción de Redux para editar una tarea
 export const editarTarea = (id, val) => (dispatch) => {
   try{
     axios({
@@ -187,6 +193,7 @@ export const editarTarea = (id, val) => (dispatch) => {
   }
 }
 
+// Acción de Redux para cancelar una tarea
 export const cancelarTarea = (id) => async (dispatch) => {
   try{
     axios({
