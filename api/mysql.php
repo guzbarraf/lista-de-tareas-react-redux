@@ -3,8 +3,8 @@
   class clsMysql{
     var $server = 'localhost';
     var $database = 'db_tareas';
-    var $username = 'root';
-    var $password = 'root';
+    var $username = '';
+    var $password = '';
     var $debug = 'true';
     
     #########################
